@@ -2,7 +2,7 @@
 
 A beautiful CLI for managing dotfiles, built as a modular Nx monorepo.
 
-## Package Layout
+## Repo Layout
 
 ```
 apps/
@@ -25,6 +25,16 @@ packages/
 ```
 
 All provider packages (`chezmoi`, `homebrew`, `mas`) depend only on `@dotty/core` - they must NOT depend on `@dotty/cli`.
+
+### Package Documentation
+
+| Package | Description | README |
+|---------|-------------|--------|
+| `@dotty/cli` | Main CLI binary | [apps/cli/README.md](apps/cli/README.md) |
+| `@dotty/core` | Shared utilities, types, UI | [packages/core/README.md](packages/core/README.md) |
+| `@dotty/chezmoi` | Chezmoi wrapper | [packages/chezmoi/README.md](packages/chezmoi/README.md) |
+| `@dotty/homebrew` | Homebrew integration | [packages/homebrew/README.md](packages/homebrew/README.md) |
+| `@dotty/mas` | Mac App Store integration | [packages/mas/README.md](packages/mas/README.md) |
 
 ## Development
 
@@ -84,6 +94,8 @@ dotty --help    # Now available system-wide
 ## Releasing
 
 All `@dotty/*` packages use **single-versioning** - they are always released together with the same version number.
+
+> **Testing locally?** See [docs/local-publishing.md](docs/local-publishing.md) for Verdaccio setup.
 
 ### Version Management
 
