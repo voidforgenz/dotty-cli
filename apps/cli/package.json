@@ -1,0 +1,92 @@
+{
+  "name": "@dotty/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "dotty": "./dist/main.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "nx": {
+    "targets": {
+      "build": {
+        "executor": "@nx/esbuild:esbuild",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "defaultConfiguration": "production",
+        "options": {
+          "platform": "node",
+          "outputPath": "apps/cli/dist",
+          "format": [
+            "esm"
+          ],
+          "bundle": true,
+          "main": "apps/cli/src/main.ts",
+          "tsConfig": "apps/cli/tsconfig.app.json",
+          "assets": [
+            "apps/cli/src/assets"
+          ],
+          "thirdParty": false,
+          "esbuildOptions": {
+            "sourcemap": true,
+            "outExtension": {
+              ".js": ".js"
+            },
+            "banner": {
+              "js": "#!/usr/bin/env node"
+            }
+          }
+        },
+        "configurations": {
+          "development": {},
+          "production": {
+            "esbuildOptions": {
+              "sourcemap": false,
+              "outExtension": {
+                ".js": ".js"
+              },
+              "banner": {
+                "js": "#!/usr/bin/env node"
+              }
+            }
+          }
+        }
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "@dotty/cli:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "@dotty/cli:build:development"
+          },
+          "production": {
+            "buildTarget": "@dotty/cli:build:production"
+          }
+        }
+      },
+      "test": {
+        "options": {
+          "passWithNoTests": true
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@dotty/core": "workspace:*",
+    "@dotty/chezmoi": "workspace:*",
+    "@dotty/homebrew": "workspace:*",
+    "@dotty/mas": "workspace:*",
+    "chalk": "*",
+    "commander": "*"
+  }
+}

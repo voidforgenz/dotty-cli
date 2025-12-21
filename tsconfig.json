@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/dotty-e2e"
+    },
+    {
+      "path": "./apps/dotty"
+    },
+    {
+      "path": "./packages/core"
+    },
+    {
+      "path": "./packages/chezmoi"
+    },
+    {
+      "path": "./packages/homebrew"
+    },
+    {
+      "path": "./packages/mas"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "@dotty/source",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "nx run-many -t build",
+    "dev": "nx serve @dotty/cli",
+    "cli": "tsx apps/cli/src/main.ts",
+    "link": "pnpm build && pnpm --filter @dotty/cli link --global"
+  },
+  "private": true,
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.2",
+    "execa": "^9.6.1",
+    "ora": "^8.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.8.0",
+    "@nx/esbuild": "22.3.3",
+    "@nx/eslint": "22.3.3",
+    "@nx/eslint-plugin": "22.3.3",
+    "@nx/jest": "22.3.3",
+    "@nx/js": "22.3.3",
+    "@nx/node": "22.3.3",
+    "@nx/workspace": "22.3.3",
+    "@swc-node/register": "~1.9.1",
+    "@swc/core": "~1.5.7",
+    "@swc/helpers": "~0.5.11",
+    "@swc/jest": "~0.2.38",
+    "@types/jest": "^30.0.0",
+    "@types/node": "20.19.9",
+    "esbuild": "^0.19.2",
+    "eslint": "^9.8.0",
+    "eslint-config-prettier": "^10.0.0",
+    "jest": "^30.0.2",
+    "jest-environment-node": "^30.0.2",
+    "jest-util": "^30.0.2",
+    "nx": "22.3.3",
+    "prettier": "~3.6.2",
+    "ts-jest": "^29.4.0",
+    "tslib": "^2.3.0",
+    "tsx": "^4.21.0",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.40.0",
+    "verdaccio": "^6.0.5"
+  },
+  "packageManager": "pnpm@10.26.1+sha512.664074abc367d2c9324fdc18037097ce0a8f126034160f709928e9e9f95d98714347044e5c3164d65bd5da6c59c6be362b107546292a8eecb7999196e5ce58fa",
+  "nx": {
+    "includedScripts": [],
+    "targets": {
+      "local-registry": {
+        "executor": "@nx/js:verdaccio",
+        "options": {
+          "port": 4873,
+          "config": ".verdaccio/config.yml",
+          "storage": "tmp/local-registry/storage"
+        }
+      }
+    }
+  }
+}

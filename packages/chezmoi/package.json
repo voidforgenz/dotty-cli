@@ -1,0 +1,44 @@
+{
+  "name": "@dotty/chezmoi",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@dotty/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "nx": {
+    "name": "chezmoi",
+    "targets": {
+      "build": {
+        "executor": "@nx/esbuild:esbuild",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "packages/chezmoi/dist",
+          "main": "packages/chezmoi/src/index.ts",
+          "tsConfig": "packages/chezmoi/tsconfig.lib.json",
+          "format": [
+            "esm"
+          ],
+          "declarationRootDir": "packages/chezmoi/src"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@dotty/core": "workspace:*"
+  }
+}
