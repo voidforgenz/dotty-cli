@@ -105,6 +105,5 @@ jobs:
               --head release/next \
               --base main \
               --title "chore(release): v${VERSION}" \
-              --body "$BODY" \
-              --label "release"
+              --body "$BODY"
           fi
