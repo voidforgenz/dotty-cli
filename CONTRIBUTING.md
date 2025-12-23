@@ -1,6 +1,6 @@
 # Contributing to Dotty
 
-Thanks for your interest in contributing! This document outlines how to get started.
+Thanks for your interest in contributing! This guide will help you get started.
 
 ## Development Setup
 
@@ -62,43 +62,96 @@ All provider packages depend only on `@dotty/core` - they must NOT depend on `@d
 
 ## Development Commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm cli` | Run CLI from source (via tsx) |
-| `pnpm dev` | Watch mode - rebuilds on changes |
-| `pnpm build` | Build affected packages |
-| `pnpm build:all` | Build all packages |
-| `pnpm test` | Run affected tests |
-| `pnpm test:all` | Run all tests with coverage |
-| `pnpm lint` | Lint affected packages |
-| `pnpm typecheck` | Type check affected packages |
+This project uses [Nx](https://nx.dev) for build orchestration. Commands come in two variants:
 
-### Working with Nx
+### Affected Commands (Default)
+
+These only run on packages affected by your changes (compared to `main` branch):
+
+```bash
+pnpm build       # Build affected packages only
+pnpm test        # Test affected packages only
+pnpm lint        # Lint affected packages only
+pnpm typecheck   # Type check affected packages only
+```
+
+### Full Commands (`:all` suffix)
+
+These run on **all packages** regardless of what changed - useful for CI or verifying everything works:
+
+```bash
+pnpm build:all      # Build all packages
+pnpm test:all       # Test all packages (with coverage)
+pnpm lint:all       # Lint all packages
+pnpm typecheck:all  # Type check all packages
+```
+
+### Other Commands
+
+```bash
+pnpm cli         # Run CLI from source (via tsx)
+pnpm dev         # Watch mode - rebuilds on changes
+pnpm commit      # Interactive commit prompt (commitizen)
+```
+
+## Working with Nx
+
+### Running Tasks on Specific Packages
 
 ```bash
 # Build a specific package
-npx nx build @dotty/core
+pnpm nx build @dotty/core
 
 # Run tests for a package
-npx nx test @dotty/homebrew
+pnpm nx test @dotty/homebrew
 
-# View dependency graph
-npx nx graph
+# Run multiple tasks
+pnpm nx run-many -t lint test build
+```
+
+### Skipping the Cache
+
+Nx caches task results for speed. To force a fresh run:
+
+```bash
+# Skip cache for a single command
+pnpm nx build @dotty/core --skip-nx-cache
+
+# Skip cache for affected command
+pnpm build -- --skip-nx-cache
+
+# Skip cache for all packages
+pnpm build:all -- --skip-nx-cache
+```
+
+### Useful Nx Commands
+
+```bash
+# View the project dependency graph
+pnpm nx graph
 
 # See available targets for a project
-npx nx show project @dotty/cli
+pnpm nx show project @dotty/cli
+
+# See what would be affected by your changes
+pnpm nx show projects --affected
+
+# Reset the Nx cache (if things get weird)
+pnpm nx reset
 ```
 
 ## Code Style
 
-- TypeScript with strict mode
-- ESM modules (`"type": "module"`)
-- Prettier for formatting
-- ESLint for linting
+- **TypeScript** with strict mode enabled
+- **ESM modules** (`"type": "module"` in package.json)
+- **Prettier** for code formatting
+- **ESLint** for linting
 
-### Commit Messages
+Unused variables should be prefixed with `_` (e.g., `_unusedParam`).
 
-We use [Conventional Commits](https://conventionalcommits.org):
+## Commit Messages
+
+We use [Conventional Commits](https://conventionalcommits.org). Commits are validated by commitlint.
 
 ```
 feat: add new feature
@@ -109,37 +162,92 @@ refactor: code restructuring
 test: add or update tests
 ```
 
-Commits are enforced via commitlint. Use `pnpm commit` for an interactive prompt.
+**Breaking changes:** Add `!` after the type or include `BREAKING CHANGE:` in the body:
 
-### Pull Requests
+```
+feat!: remove deprecated sync command
 
-1. Fork the repo and create a feature branch
-2. Make your changes with clear commit messages
-3. Ensure tests pass: `pnpm test`
-4. Ensure linting passes: `pnpm lint`
-5. Ensure types check: `pnpm typecheck`
-6. Open a PR with a clear description
+BREAKING CHANGE: The sync command has been removed. Use apply/pull/push instead.
+```
+
+Use `pnpm commit` for an interactive prompt that guides you through the format.
+
+## Pull Request Workflow
+
+1. Fork the repo and create a feature branch from `main`
+2. Make your changes with clear, conventional commit messages
+3. Ensure all checks pass:
+   ```bash
+   pnpm lint
+   pnpm typecheck
+   pnpm test
+   pnpm build
+   ```
+4. Push your branch and open a PR
+5. CI will run automatically - all checks must pass before merge
 
 ## Testing
 
 ```bash
-# Run all tests
+# Run affected tests
+pnpm test
+
+# Run all tests with coverage
 pnpm test:all
 
 # Run tests for a specific package
-npx nx test @dotty/core
+pnpm nx test @dotty/core
 
-# Run with coverage
-npx nx test @dotty/core -- --coverage
+# Run tests with coverage for a specific package
+pnpm nx test @dotty/core -- --coverage
+
+# Run a specific test file
+pnpm nx test @dotty/core -- --testPathPattern=exec.spec.ts
 ```
 
 ## Adding a New Package
 
 1. Create the package directory under `packages/`
-2. Add `package.json` with proper nx configuration
-3. Add to the dependency graph in consuming packages
-4. Add to the release configuration in `nx.json`
+2. Add `package.json` with:
+   - Proper `name` (`@dotty/package-name`)
+   - `publishConfig.access: "public"`
+   - Nx build configuration
+3. Add the package to consuming packages' dependencies
+4. The package is automatically included in releases (via `packages/*` in nx.json)
+
+## Debugging
+
+### Running with Debug Output
+
+```bash
+# Verbose Nx output
+NX_VERBOSE_LOGGING=true pnpm build
+
+# Debug a specific command
+DEBUG=* pnpm cli doctor
+```
+
+### Common Issues
+
+**"Cannot find module" errors after switching branches:**
+```bash
+pnpm install
+pnpm nx reset
+```
+
+**Tests failing with stale cache:**
+```bash
+pnpm nx test @dotty/core --skip-nx-cache
+```
+
+**Build outputs seem wrong:**
+```bash
+pnpm nx reset
+pnpm build:all
+```
 
 ## Questions?
 
-Open an issue for bugs or feature requests. For questions, start a discussion.
+- **Bugs & Features:** Open an issue
+- **Questions:** Start a discussion
+- **Security:** Email maintainers directly (do not open public issues)
