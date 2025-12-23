@@ -25,6 +25,7 @@ export {
   addApp,
   removeApp,
   getActiveApps,
+  dedupeApps,
 } from './lib/writer.js';
 
 // Profiles
