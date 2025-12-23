@@ -6,6 +6,7 @@ export interface ExecOptions {
   spinner?: string;
   silent?: boolean;
   cwd?: string;
+  shell?: boolean;
 }
 
 export interface ExecResult {
@@ -22,7 +23,7 @@ export async function exec(
   args: string[] = [],
   options: ExecOptions = {}
 ): Promise<ExecResult> {
-  const { spinner: spinnerText, silent, cwd } = options;
+  const { spinner: spinnerText, silent, cwd, shell } = options;
 
   let spinnerInstance: Ora | null = null;
   if (spinnerText && !silent) {
@@ -33,6 +34,7 @@ export async function exec(
     const execaOptions: ExecaOptions = {
       cwd,
       reject: false,
+      shell,
     };
 
     const result = await execa(command, args, execaOptions);

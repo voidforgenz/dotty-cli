@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { dryRunLog, showIntro, showOutro, log, confirm } from '@dotty/core';
+import { dryRunLog, showIntro, showOutro, log, confirm, runHooks } from '@dotty/core';
 import { createChezmoiService } from '@dotty/chezmoi';
 import {
   loadDottyfile,
@@ -59,6 +59,17 @@ export function registerApplyCommand(program: Command): void {
       }
 
       log.step(`Found ${activeApps.length} app(s) in Dottyfile`);
+
+      // Run pre hooks
+      if (config.run?.pre && config.run.pre.length > 0) {
+        console.log();
+        const preResult = await runHooks(config.run.pre, 'pre', { dryRun: opts.dryRun });
+        if (!preResult.success) {
+          log.error('Pre hooks failed, aborting apply');
+          showOutro();
+          return;
+        }
+      }
 
       // Load providers
       const providers = await loadProviders(config.providers);
@@ -127,6 +138,12 @@ export function registerApplyCommand(program: Command): void {
 
       // Apply dotfiles via chezmoi (if available)
       await applyDotfiles(opts);
+
+      // Run post hooks
+      if (config.run?.post && config.run.post.length > 0) {
+        console.log();
+        await runHooks(config.run.post, 'post', { dryRun: opts.dryRun });
+      }
 
       showOutro('Apply complete!');
     });
