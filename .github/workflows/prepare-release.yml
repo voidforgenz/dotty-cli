@@ -1,0 +1,100 @@
+name: Prepare Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: prepare-release
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Compute next version
+        id: version
+        run: pnpm tsx scripts/compute-next-version.ts >> $GITHUB_OUTPUT
+
+      - name: Setup release branch (projection model)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Fetch release/next if exists
+          git fetch origin release/next || true
+
+          # Create or reset release/next to main
+          git checkout -B release/next origin/main
+
+      - name: Update versions
+        run: |
+          pnpm nx release version ${{ steps.version.outputs.version }} \
+            --git-commit=false \
+            --git-tag=false
+
+      - name: Update changelog
+        run: |
+          pnpm nx release changelog ${{ steps.version.outputs.version }} \
+            --git-commit=false \
+            --git-tag=false \
+            --from=${{ steps.version.outputs.previous && format('v{0}', steps.version.outputs.previous) || '' }}
+
+      - name: Commit and push
+        run: |
+          git add -A
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "chore(release): prepare v${{ steps.version.outputs.version }}"
+          git push origin release/next --force-with-lease
+
+      - name: Create or update PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          # Check for existing PR
+          EXISTING_PR=$(gh pr list --head release/next --base main --json number --jq '.[0].number' || echo "")
+
+          BODY="## Release v${VERSION}
+
+          This PR was automatically generated. Merge to release.
+
+          **Changes since v${{ steps.version.outputs.previous }}:**
+          See CHANGELOG.md for details.
+
+          ---
+          _Merge this PR to trigger the release and publish to npm._"
+
+          if [ -n "$EXISTING_PR" ]; then
+            echo "Updating existing PR #${EXISTING_PR}"
+            gh pr edit "$EXISTING_PR" \
+              --title "chore(release): v${VERSION}" \
+              --body "$BODY"
+          else
+            echo "Creating new PR"
+            gh pr create \
+              --head release/next \
+              --base main \
+              --title "chore(release): v${VERSION}" \
+              --body "$BODY" \
+              --label "release"
+          fi

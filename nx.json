@@ -65,13 +65,12 @@
       "projectChangelogs": false,
       "workspaceChangelog": {
         "file": "CHANGELOG.md",
-        "createRelease": "github"
+        "createRelease": false
       }
     },
     "git": {
-      "commit": true,
-      "tag": true,
-      "commitMessage": "chore(release): v{version}"
+      "commit": false,
+      "tag": false
     }
   }
 }

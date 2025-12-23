@@ -1,21 +1,22 @@
 {
   "name": "@dotty/source",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "nx affected -t build",
+    "build": "nx affected -t build --base=main",
     "dev": "nx serve @dotty/cli",
     "cli": "tsx apps/cli/src/main.ts",
     "link": "pnpm build:all && pnpm --filter @dotty/cli link --global",
-    "test": "nx affected -t test -- --coverage",
-    "lint": "nx affected -t lint",
-    "typecheck": "nx affected -t typecheck",
+    "test": "nx affected -t test --base=main -- --coverage",
+    "lint": "nx affected -t lint --base=main",
+    "typecheck": "nx affected -t typecheck --base=main",
     "build:all": "nx run-many -t build",
     "test:all": "nx run-many -t test -- --coverage",
     "lint:all": "nx run-many -t lint",
     "typecheck:all": "nx run-many -t typecheck",
     "prepare": "husky",
-    "commit": "cz"
+    "commit": "cz",
+    "release:version": "tsx scripts/compute-next-version.ts"
   },
   "private": true,
   "dependencies": {
@@ -62,7 +63,9 @@
     "tsx": "^4.21.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",
-    "verdaccio": "^6.0.5"
+    "verdaccio": "^6.0.5",
+    "semver": "^7.6.0",
+    "@types/semver": "^7.5.8"
   },
   "packageManager": "pnpm@10.26.1+sha512.664074abc367d2c9324fdc18037097ce0a8f126034160f709928e9e9f95d98714347044e5c3164d65bd5da6c59c6be362b107546292a8eecb7999196e5ce58fa",
   "nx": {
