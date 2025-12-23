@@ -132,6 +132,9 @@ importers:
       '@dotty/homebrew':
         specifier: workspace:*
         version: link:../../packages/homebrew
+      '@dotty/macos':
+        specifier: workspace:*
+        version: link:../../packages/macos
       '@dotty/mas':
         specifier: workspace:*
         version: link:../../packages/mas
@@ -186,6 +189,15 @@ importers:
       '@dotty/runtime':
         specifier: workspace:*
         version: link:../runtime
+
+  packages/macos:
+    dependencies:
+      '@dotty/config':
+        specifier: workspace:*
+        version: link:../config
+      '@dotty/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/mas:
     dependencies:

@@ -7,6 +7,7 @@ import {
   dottyfileExists,
   getActiveApps,
   getDottyfilePath,
+  type Dottyfile,
 } from '@dotty/config';
 import {
   loadProviders,
@@ -15,6 +16,7 @@ import {
   groupByProvider,
   type ResolvedApp,
 } from '@dotty/runtime';
+import { applyMacosSettings } from '@dotty/macos';
 import type { GlobalOptions } from '@dotty/core';
 
 export function registerApplyCommand(program: Command): void {
@@ -120,6 +122,9 @@ export function registerApplyCommand(program: Command): void {
         }
       }
 
+      // Apply macOS system settings
+      await applySystemSettings(config, opts);
+
       // Apply dotfiles via chezmoi (if available)
       await applyDotfiles(opts);
 
@@ -154,6 +159,64 @@ async function installApps(
         log.error(`Error installing ${appName}: ${error}`);
       }
     }
+  }
+}
+
+async function applySystemSettings(
+  config: Dottyfile,
+  opts: GlobalOptions
+): Promise<void> {
+  const hasSettings = config.dock || config.keyboard || config.trackpad || config.mouse;
+
+  if (!hasSettings) {
+    return;
+  }
+
+  console.log();
+  log.step('macOS system settings:');
+
+  const sections: string[] = [];
+  if (config.dock) sections.push('dock');
+  if (config.keyboard) sections.push('keyboard');
+  if (config.trackpad) sections.push('trackpad');
+  if (config.mouse) sections.push('mouse');
+
+  console.log(chalk.dim(`  Sections: ${sections.join(', ')}`));
+
+  if (opts.dryRun) {
+    dryRunLog('Would apply macOS settings');
+    return;
+  }
+
+  const result = await applyMacosSettings(
+    {
+      dock: config.dock,
+      keyboard: config.keyboard,
+      trackpad: config.trackpad,
+      mouse: config.mouse,
+    },
+    { dryRun: opts.dryRun }
+  );
+
+  if (result.hasErrors) {
+    if (result.dock?.error) {
+      log.error(`Dock: ${result.dock.error}`);
+    }
+    if (result.keyboard?.error) {
+      log.error(`Keyboard: ${result.keyboard.error}`);
+    }
+    if (result.trackpad?.error) {
+      log.error(`Trackpad: ${result.trackpad.error}`);
+    }
+    if (result.mouse?.error) {
+      log.error(`Mouse: ${result.mouse.error}`);
+    }
+  }
+
+  if (result.hasChanges) {
+    log.success('macOS settings applied');
+  } else {
+    log.info('No macOS settings changes needed');
   }
 }
 

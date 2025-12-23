@@ -88,6 +88,7 @@
     "@dotty/chezmoi": "workspace:*",
     "@dotty/homebrew": "workspace:*",
     "@dotty/mas": "workspace:*",
+    "@dotty/macos": "workspace:*",
     "chalk": "*",
     "commander": "*"
   }
