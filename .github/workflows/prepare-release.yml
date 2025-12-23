@@ -53,10 +53,20 @@ jobs:
 
       - name: Update changelog
         run: |
-          pnpm nx release changelog ${{ steps.version.outputs.version }} \
-            --git-commit=false \
-            --git-tag=false \
-            --from=${{ steps.version.outputs.previous && format('v{0}', steps.version.outputs.previous) || '' }}
+          PREV_TAG="v${{ steps.version.outputs.previous }}"
+          # Check if previous tag exists
+          if git rev-parse "$PREV_TAG" >/dev/null 2>&1; then
+            pnpm nx release changelog ${{ steps.version.outputs.version }} \
+              --git-commit=false \
+              --git-tag=false \
+              --from="$PREV_TAG"
+          else
+            # First release - no --from flag
+            pnpm nx release changelog ${{ steps.version.outputs.version }} \
+              --git-commit=false \
+              --git-tag=false \
+              --first-release
+          fi
 
       - name: Commit and push
         run: |
