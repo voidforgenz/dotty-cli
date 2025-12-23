@@ -67,3 +67,10 @@ pnpm nx release --dry-run     # Preview release
 pnpm nx release               # Bump version, changelog, commit, tag
 pnpm nx release publish       # Publish to npm
 ```
+
+## Git Commits
+
+When creating commits:
+- Do NOT add "Co-Authored-By" lines
+- Do NOT add "Generated with Claude Code" or similar footers
+- Write clean commit messages without AI attribution
