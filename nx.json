@@ -70,7 +70,12 @@
       "projectChangelogs": false,
       "workspaceChangelog": {
         "file": "CHANGELOG.md",
-        "createRelease": false
+        "createRelease": false,
+        "renderOptions": {
+          "authors": true,
+          "applyUsernameToAuthors": true,
+          "commitReferences": true
+        }
       },
       "git": {
         "commit": false,
