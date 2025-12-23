@@ -1,0 +1,66 @@
+name: Canary Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: canary-release
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Get current version
+        id: version
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          # Strip any existing prerelease suffix
+          BASE=$(echo "$CURRENT" | sed 's/-.*$//')
+          CANARY="${BASE}-canary.${GITHUB_RUN_NUMBER}"
+          echo "version=$CANARY" >> $GITHUB_OUTPUT
+          echo "Canary version: $CANARY"
+
+      - name: Update versions for canary
+        run: |
+          pnpm nx release version ${{ steps.version.outputs.version }} \
+            --git-commit=false \
+            --git-tag=false
+
+      - name: Build all packages
+        run: pnpm nx run-many -t build
+
+      - name: Publish canary to npm
+        run: |
+          pnpm nx release publish --tag canary
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Summary
+        run: |
+          echo "### Canary Published" >> $GITHUB_STEP_SUMMARY
+          echo "Version: \`${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Install with:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "npm install @dotty/cli@canary" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

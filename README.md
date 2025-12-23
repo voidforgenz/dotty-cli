@@ -20,6 +20,9 @@ npm install -g @dotty/cli
 
 # Or with pnpm
 pnpm add -g @dotty/cli
+
+# Install canary (bleeding edge, updated on every commit to main)
+npm install -g @dotty/cli@canary
 ```
 
 ### Prerequisites

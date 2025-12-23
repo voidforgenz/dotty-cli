@@ -1,16 +1,7 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-  workflow_dispatch:
-    inputs:
-      ref:
-        description: 'Git ref to checkout (branch, tag, or SHA)'
-        required: false
-        default: ''
 
 permissions:
   actions: read
@@ -22,16 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # Use input ref for workflow_dispatch, otherwise default behavior
-          ref: ${{ inputs.ref || github.ref }}
-          filter: tree:0
           fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          run_install: false
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -39,7 +23,5 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm exec nx run-many -t lint test build typecheck
-
-      - run: pnpm exec nx fix-ci
-        if: always()
+      - name: Lint, Test, Build, Typecheck
+        run: pnpm exec nx run-many -t lint test build typecheck
