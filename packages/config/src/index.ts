@@ -26,3 +26,19 @@ export {
   removeApp,
   getActiveApps,
 } from './lib/writer.js';
+
+// Profiles
+export {
+  getHostname,
+  getAllProfileNames,
+  getProfileDefinition,
+  shouldAutoActivate,
+  getAutoActivatedProfiles,
+  resolveProfileChain,
+  getEffectiveProfiles,
+  getEffectiveSettings,
+  setActiveProfiles,
+  addActiveProfile,
+  removeActiveProfile,
+  type ProfileSettings,
+} from './lib/profiles.js';

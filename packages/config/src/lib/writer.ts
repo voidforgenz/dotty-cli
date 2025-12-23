@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import TOML from '@iarna/toml';
 import type { Dottyfile, App } from './schema.js';
 import { getDottyfilePath, getDottyDir } from './parser.js';
+import { getEffectiveProfiles } from './profiles.js';
 
 /**
  * Convert a Dottyfile object to a TOML string
@@ -79,17 +80,17 @@ export function removeApp(config: Dottyfile, appId: string): Dottyfile {
 }
 
 /**
- * Get apps filtered by active profiles
+ * Get apps filtered by effective profiles (includes inheritance and hostname auto-activation)
  */
 export function getActiveApps(config: Dottyfile): App[] {
-  const activeProfiles = config.profiles?.active || ['base'];
+  const effectiveProfiles = getEffectiveProfiles(config);
 
   return config.apps.filter(app => {
     // If app has no profiles, it's always active
     if (!app.profiles || app.profiles.length === 0) {
       return true;
     }
-    // Check if any of the app's profiles are active
-    return app.profiles.some(profile => activeProfiles.includes(profile));
+    // Check if any of the app's profiles are effective
+    return app.profiles.some(profile => effectiveProfiles.includes(profile));
   });
 }

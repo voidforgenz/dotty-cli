@@ -7,7 +7,8 @@ import {
   dottyfileExists,
   getActiveApps,
   getDottyfilePath,
-  type Dottyfile,
+  getEffectiveSettings,
+  type ProfileSettings,
 } from '@dotty/config';
 import {
   loadProviders,
@@ -133,8 +134,9 @@ export function registerApplyCommand(program: Command): void {
         }
       }
 
-      // Apply macOS system settings
-      await applySystemSettings(config, opts);
+      // Apply macOS system settings (using effective profile settings)
+      const effectiveSettings = getEffectiveSettings(config);
+      await applySystemSettings(effectiveSettings, opts);
 
       // Apply dotfiles via chezmoi (if available)
       await applyDotfiles(opts);
@@ -180,10 +182,10 @@ async function installApps(
 }
 
 async function applySystemSettings(
-  config: Dottyfile,
+  settings: ProfileSettings,
   opts: GlobalOptions
 ): Promise<void> {
-  const hasSettings = config.dock || config.keyboard || config.trackpad || config.mouse;
+  const hasSettings = settings.dock || settings.keyboard || settings.trackpad || settings.mouse;
 
   if (!hasSettings) {
     return;
@@ -193,10 +195,10 @@ async function applySystemSettings(
   log.step('macOS system settings:');
 
   const sections: string[] = [];
-  if (config.dock) sections.push('dock');
-  if (config.keyboard) sections.push('keyboard');
-  if (config.trackpad) sections.push('trackpad');
-  if (config.mouse) sections.push('mouse');
+  if (settings.dock) sections.push('dock');
+  if (settings.keyboard) sections.push('keyboard');
+  if (settings.trackpad) sections.push('trackpad');
+  if (settings.mouse) sections.push('mouse');
 
   console.log(chalk.dim(`  Sections: ${sections.join(', ')}`));
 
@@ -207,10 +209,10 @@ async function applySystemSettings(
 
   const result = await applyMacosSettings(
     {
-      dock: config.dock,
-      keyboard: config.keyboard,
-      trackpad: config.trackpad,
-      mouse: config.mouse,
+      dock: settings.dock,
+      keyboard: settings.keyboard,
+      trackpad: settings.trackpad,
+      mouse: settings.mouse,
     },
     { dryRun: opts.dryRun }
   );

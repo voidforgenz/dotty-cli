@@ -29,11 +29,6 @@ export const DefaultsSchema = z.object({
   destructive: z.enum(['never', 'prompt', 'always']).default('prompt'),
 });
 
-// Profiles section
-export const ProfilesSchema = z.object({
-  active: z.array(z.string()).default(['base']),
-});
-
 // Homebrew provider settings
 export const HomebrewSettingsSchema = z.object({
   cleanup: z.boolean().optional(),
@@ -83,6 +78,22 @@ export const MouseSettingsSchema = z.object({
   secondaryClick: z.boolean().optional(),
 });
 
+// Individual profile definition (for named profiles like [profiles.work])
+export const ProfileDefinitionSchema = z.object({
+  extends: z.string().optional(),
+  hostname: z.union([z.string(), z.array(z.string())]).optional(),
+  // Profile-specific system settings
+  dock: DockSettingsSchema.optional(),
+  keyboard: KeyboardSettingsSchema.optional(),
+  trackpad: TrackpadSettingsSchema.optional(),
+  mouse: MouseSettingsSchema.optional(),
+});
+
+// Profiles section - allows 'active' array plus named profile definitions
+export const ProfilesSchema = z.object({
+  active: z.array(z.string()).default(['base']),
+}).passthrough();
+
 // Run hooks
 export const RunCommandSchema = z.object({
   cmd: z.string(),
@@ -116,6 +127,7 @@ export type MasApp = z.infer<typeof MasAppSchema>;
 export type App = z.infer<typeof AppSchema>;
 export type Defaults = z.infer<typeof DefaultsSchema>;
 export type Profiles = z.infer<typeof ProfilesSchema>;
+export type ProfileDefinition = z.infer<typeof ProfileDefinitionSchema>;
 export type HomebrewSettings = z.infer<typeof HomebrewSettingsSchema>;
 export type MasSettings = z.infer<typeof MasSettingsSchema>;
 export type DockSettings = z.infer<typeof DockSettingsSchema>;
