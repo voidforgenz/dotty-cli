@@ -20,6 +20,12 @@
     },
     {
       "path": "./packages/mas"
+    },
+    {
+      "path": "./packages/config"
+    },
+    {
+      "path": "./packages/runtime"
     }
   ]
 }

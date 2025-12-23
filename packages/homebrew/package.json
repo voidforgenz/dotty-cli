@@ -39,6 +39,8 @@
     }
   },
   "dependencies": {
-    "@dotty/core": "workspace:*"
+    "@dotty/core": "workspace:*",
+    "@dotty/config": "workspace:*",
+    "@dotty/runtime": "workspace:*"
   }
 }

@@ -1,0 +1,28 @@
+// Schema and types
+export * from './lib/schema.js';
+
+// Parser
+export {
+  DOTTYFILE_NAME,
+  DOTTY_DIR,
+  getDottyDir,
+  getDottyfilePath,
+  dottyfileExists,
+  dottyDirExists,
+  parseDottyfileString,
+  loadDottyfile,
+  loadDottyfileSafe,
+  tryParseDottyfile,
+  type ParseResult,
+} from './lib/parser.js';
+
+// Writer
+export {
+  stringifyDottyfile,
+  writeDottyfile,
+  ensureDottyDir,
+  createDefaultDottyfile,
+  addApp,
+  removeApp,
+  getActiveApps,
+} from './lib/writer.js';

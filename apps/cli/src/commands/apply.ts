@@ -2,84 +2,217 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import { dryRunLog, showIntro, showOutro, log, confirm } from '@dotty/core';
 import { createChezmoiService } from '@dotty/chezmoi';
+import {
+  loadDottyfile,
+  dottyfileExists,
+  getActiveApps,
+  getDottyfilePath,
+} from '@dotty/config';
+import {
+  loadProviders,
+  resolveAllApps,
+  findMissingApps,
+  groupByProvider,
+  type ResolvedApp,
+} from '@dotty/runtime';
 import type { GlobalOptions } from '@dotty/core';
-
-// Descriptions for known run scripts
-const SCRIPT_DESCRIPTIONS: Record<string, string> = {
-  'configure-dock.sh': 'Configure macOS Dock with predefined apps',
-  'install-tmux-plugins.sh': 'Install tmux plugin manager (TPM) if missing',
-  'uninstall-manual-apps.sh': 'Remove manually installed apps not in Brewfile',
-};
 
 export function registerApplyCommand(program: Command): void {
   program
     .command('apply')
-    .description('Apply dotfiles to system (chezmoi apply)')
+    .description('Apply Dottyfile to system (install missing apps)')
     .action(async () => {
       const opts = program.opts<GlobalOptions>();
 
       showIntro('dotty');
 
-      const chezmoi = createChezmoiService();
-      const { files, runScripts } = await chezmoi.getStatus();
-
-      if (files.length === 0 && runScripts.length === 0) {
-        log.success('No changes to apply');
+      // Check if Dottyfile exists
+      if (!(await dottyfileExists())) {
+        log.error(`No Dottyfile found at ${getDottyfilePath()}`);
+        log.info('Run `dotty init` to create one.');
         showOutro();
         return;
       }
 
-      // Show what will change
-      if (files.length > 0) {
-        log.step('File changes to apply:');
-        console.log();
-        await chezmoi.showDiff();
-        console.log();
-      }
-
-      if (runScripts.length > 0) {
-        log.step('Scripts to execute:');
-        console.log();
-        for (const line of runScripts) {
-          // Extract script name from status line
-          const scriptName = line.replace(/^R\s+/, '').replace(/^\s+R\s+/, '').trim();
-          const description = SCRIPT_DESCRIPTIONS[scriptName] || 'Run script';
-          console.log(`  ${chalk.cyan('→')} ${chalk.bold(scriptName)}`);
-          console.log(`    ${chalk.dim(description)}`);
-        }
-        console.log();
-      }
-
-      if (opts.dryRun) {
-        dryRunLog('Would apply the above changes');
+      // Load Dottyfile
+      let config;
+      try {
+        config = await loadDottyfile();
+      } catch (error) {
+        log.error('Failed to parse Dottyfile:');
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        console.log(`  ${chalk.red('•')} ${message}`);
         showOutro();
         return;
       }
 
-      // Confirm unless --yes flag
-      if (!opts.yes) {
-        const confirmed = await confirm('Apply these changes?', true);
-        if (!confirmed) {
-          showOutro('Cancelled');
-          return;
-        }
-      }
+      // Get active apps based on profiles
+      const activeApps = getActiveApps(config);
 
-      // Apply changes
-      const result = await chezmoi.apply({
-        spinner: 'Applying changes...',
-      });
-
-      if (!result.success) {
-        log.error('Failed to apply changes');
-        if (result.stderr) {
-          console.error(result.stderr);
-        }
+      if (activeApps.length === 0) {
+        log.info('No apps configured in Dottyfile.');
+        log.info('Add apps to your Dottyfile and run `dotty apply` again.');
         showOutro();
-        process.exit(1);
+        return;
       }
 
-      log.success('Changes applied successfully');
-      showOutro();
+      log.step(`Found ${activeApps.length} app(s) in Dottyfile`);
+
+      // Load providers
+      const providers = await loadProviders(config.providers);
+
+      if (providers.size === 0) {
+        log.warn('No providers available. Install provider packages first.');
+        showOutro();
+        return;
+      }
+
+      log.info(`Loaded providers: ${[...providers.keys()].join(', ')}`);
+
+      // Resolve apps to providers
+      const { resolved, unresolved } = await resolveAllApps(
+        activeApps,
+        config.providers,
+        providers
+      );
+
+      if (unresolved.length > 0) {
+        log.warn(`Could not resolve ${unresolved.length} app(s):`);
+        for (const app of unresolved) {
+          console.log(`  ${chalk.yellow('•')} ${app.name || app.id}`);
+        }
+      }
+
+      // Find missing apps
+      const missing = await findMissingApps(resolved);
+
+      if (missing.length === 0) {
+        log.success('All apps are already installed!');
+      } else {
+        log.step(`${missing.length} app(s) to install:`);
+
+        // Group by provider for display
+        const grouped = groupByProvider(missing);
+
+        for (const [providerName, apps] of grouped) {
+          console.log();
+          console.log(`  ${chalk.bold(providerName)}:`);
+          for (const { app } of apps) {
+            console.log(`    ${chalk.cyan('+')} ${app.name || app.id}`);
+          }
+        }
+        console.log();
+
+        if (opts.dryRun) {
+          dryRunLog('Would install the above apps');
+        } else {
+          // Confirm unless --yes flag
+          if (!opts.yes) {
+            const confirmed = await confirm('Install these apps?', true);
+            if (!confirmed) {
+              showOutro('Cancelled');
+              return;
+            }
+          }
+
+          // Install apps
+          await installApps(missing, opts);
+        }
+      }
+
+      // Apply dotfiles via chezmoi (if available)
+      await applyDotfiles(opts);
+
+      showOutro('Apply complete!');
     });
+}
+
+async function installApps(
+  missing: ResolvedApp[],
+  opts: GlobalOptions
+): Promise<void> {
+  const grouped = groupByProvider(missing);
+
+  for (const [providerName, apps] of grouped) {
+    log.step(`Installing via ${providerName}...`);
+
+    for (const { app, provider } of apps) {
+      const appName = app.name || app.id;
+
+      try {
+        const result = await provider.install(app, {
+          dryRun: opts.dryRun,
+          spinner: `Installing ${appName}...`,
+        });
+
+        if (result.success) {
+          log.success(`Installed ${appName}`);
+        } else {
+          log.error(`Failed to install ${appName}: ${result.error}`);
+        }
+      } catch (error) {
+        log.error(`Error installing ${appName}: ${error}`);
+      }
+    }
+  }
+}
+
+async function applyDotfiles(opts: GlobalOptions): Promise<void> {
+  const chezmoi = createChezmoiService();
+
+  // Check if chezmoi is available
+  const available = await chezmoi.isInstalled();
+  if (!available) {
+    return; // Silently skip if chezmoi not installed
+  }
+
+  const { files, runScripts } = await chezmoi.getStatus();
+
+  if (files.length === 0 && runScripts.length === 0) {
+    return; // No dotfile changes
+  }
+
+  console.log();
+  log.step('Dotfile changes:');
+
+  if (files.length > 0) {
+    await chezmoi.showDiff();
+  }
+
+  if (runScripts.length > 0) {
+    console.log();
+    log.info('Scripts to execute:');
+    for (const script of runScripts) {
+      const scriptName = script.replace(/^R\s+/, '').replace(/^\s+R\s+/, '').trim();
+      console.log(`  ${chalk.cyan('→')} ${scriptName}`);
+    }
+  }
+
+  console.log();
+
+  if (opts.dryRun) {
+    dryRunLog('Would apply dotfile changes');
+    return;
+  }
+
+  // Confirm unless --yes flag
+  if (!opts.yes) {
+    const confirmed = await confirm('Apply dotfile changes?', true);
+    if (!confirmed) {
+      return;
+    }
+  }
+
+  const result = await chezmoi.apply({
+    spinner: 'Applying dotfiles...',
+  });
+
+  if (result.success) {
+    log.success('Dotfiles applied');
+  } else {
+    log.error('Failed to apply dotfiles');
+    if (result.stderr) {
+      console.error(result.stderr);
+    }
+  }
 }

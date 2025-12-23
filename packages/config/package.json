@@ -1,5 +1,5 @@
 {
-  "name": "@dotty/mas",
+  "name": "@dotty/config",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -19,7 +19,6 @@
     "!**/*.tsbuildinfo"
   ],
   "nx": {
-    "name": "mas",
     "targets": {
       "build": {
         "executor": "@nx/esbuild:esbuild",
@@ -27,20 +26,19 @@
           "{options.outputPath}"
         ],
         "options": {
-          "outputPath": "packages/mas/dist",
-          "main": "packages/mas/src/index.ts",
-          "tsConfig": "packages/mas/tsconfig.lib.json",
+          "outputPath": "packages/config/dist",
+          "main": "packages/config/src/index.ts",
+          "tsConfig": "packages/config/tsconfig.lib.json",
           "format": [
             "esm"
           ],
-          "declarationRootDir": "packages/mas/src"
+          "declarationRootDir": "packages/config/src"
         }
       }
     }
   },
   "dependencies": {
-    "@dotty/core": "workspace:*",
-    "@dotty/config": "workspace:*",
-    "@dotty/runtime": "workspace:*"
+    "@iarna/toml": "*",
+    "zod": "*"
   }
 }
