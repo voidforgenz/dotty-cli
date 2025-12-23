@@ -13,7 +13,9 @@
     "build:all": "nx run-many -t build",
     "test:all": "nx run-many -t test -- --coverage",
     "lint:all": "nx run-many -t lint",
-    "typecheck:all": "nx run-many -t typecheck"
+    "typecheck:all": "nx run-many -t typecheck",
+    "prepare": "husky",
+    "commit": "cz"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +28,8 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
     "@eslint/js": "^9.8.0",
     "@nx/esbuild": "22.3.3",
     "@nx/eslint": "22.3.3",
@@ -40,12 +44,16 @@
     "@swc/jest": "~0.2.38",
     "@types/jest": "^30.0.0",
     "@types/node": "20.19.9",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
     "esbuild": "^0.19.2",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
+    "husky": "^9.1.7",
     "jest": "^30.0.2",
     "jest-environment-node": "^30.0.2",
     "jest-util": "^30.0.2",
+    "lint-staged": "^16.2.7",
     "nx": "22.3.3",
     "prettier": "~3.6.2",
     "ts-jest": "^29.4.0",
@@ -68,6 +76,17 @@
           "storage": "tmp/local-registry/storage"
         }
       }
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "nx affected -t lint",
+      "nx affected -t typecheck"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
     }
   }
 }
