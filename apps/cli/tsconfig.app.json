@@ -17,5 +17,28 @@
     "eslint.config.js",
     "eslint.config.cjs",
     "eslint.config.mjs"
+  ],
+  "references": [
+    {
+      "path": "../../packages/macos/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/mas/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/homebrew/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/chezmoi/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/runtime/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/config/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/core/tsconfig.lib.json"
+    }
   ]
 }

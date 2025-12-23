@@ -4,12 +4,6 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/dotty-e2e"
-    },
-    {
-      "path": "./apps/dotty"
-    },
-    {
       "path": "./packages/core"
     },
     {
@@ -29,6 +23,9 @@
     },
     {
       "path": "./packages/macos"
+    },
+    {
+      "path": "./apps/cli"
     }
   ]
 }
