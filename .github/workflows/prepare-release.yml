@@ -10,6 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
@@ -69,13 +70,29 @@ jobs:
           fi
 
       - name: Commit and push
+        id: push
         run: |
           git add -A
-          git diff --staged --quiet && echo "No changes" && exit 0
-          git commit -m "chore(release): prepare v${{ steps.version.outputs.version }}"
-          git push origin release/next --force-with-lease
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            echo "pushed=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "chore(release): prepare v${{ steps.version.outputs.version }}"
+            git push origin release/next --force-with-lease
+            echo "pushed=true" >> $GITHUB_OUTPUT
+            echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Trigger CI for release branch
+        if: steps.push.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Dispatching CI workflow for release/next (SHA: ${{ steps.push.outputs.sha }})"
+          gh workflow run ci.yml --ref release/next --field ref=release/next
 
       - name: Create or update PR
+        if: steps.push.outputs.pushed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -106,4 +123,15 @@ jobs:
               --base main \
               --title "chore(release): v${VERSION}" \
               --body "$BODY"
+          fi
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.push.outputs.pushed }}" == "true" ]; then
+            echo "### Release PR Updated" >> $GITHUB_STEP_SUMMARY
+            echo "Version: v${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+            echo "CI dispatched for: release/next" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### No Changes" >> $GITHUB_STEP_SUMMARY
+            echo "No version changes detected." >> $GITHUB_STEP_SUMMARY
           fi
