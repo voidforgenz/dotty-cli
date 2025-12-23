@@ -53,9 +53,6 @@ jobs:
 
       - name: Update changelog
         run: |
-          # Remove existing changelog to force fresh generation
-          rm -f CHANGELOG.md
-
           PREV_TAG="v${{ steps.version.outputs.previous }}"
           # Check if previous tag exists
           if git rev-parse "$PREV_TAG" >/dev/null 2>&1; then
