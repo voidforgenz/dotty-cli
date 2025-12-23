@@ -42,12 +42,12 @@ export class MasProvider implements Provider {
       const lines = stdout.trim().split('\n').filter(Boolean);
 
       return lines.map((line) => {
-        const match = line.match(/^(\d+)\s+(.+?)\s+\(/);
+        const match = line.match(/^\s*(\d+)\s+(.+?)\s+\(/);
         if (match) {
           return { id: match[1], name: match[2] };
         }
         // Fallback parsing
-        const parts = line.split(/\s+/);
+        const parts = line.trim().split(/\s+/);
         return { id: parts[0], name: parts.slice(1).join(' ') };
       });
     } catch {
