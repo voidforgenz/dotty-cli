@@ -37,3 +37,17 @@ export {
   installMissingApps,
   type ResolvedApp,
 } from './lib/resolver.js';
+
+// Migrations
+export {
+  CURRENT_SCHEMA_VERSION,
+  checkMigrationsNeeded,
+  runMigrations,
+  readMigrationHistory,
+  getMigrationsDir,
+  registerMigration,
+  getRegisteredMigrations,
+  type Migration,
+  type MigrationRecord,
+  type MigrateResult,
+} from './lib/migrations.js';

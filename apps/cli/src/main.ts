@@ -12,6 +12,7 @@ import { registerPullCommand } from './commands/pull.js';
 import { registerPushCommand } from './commands/push.js';
 import { registerEditCommand } from './commands/edit.js';
 import { registerAddCommand } from './commands/add.js';
+import { registerMigrateCommand } from './commands/migrate.js';
 
 // Register bundled providers
 registerProviderFactory('homebrew', createHomebrewProvider);
@@ -42,6 +43,7 @@ registerPullCommand(program);
 registerPushCommand(program);
 registerEditCommand(program);
 registerAddCommand(program);
+registerMigrateCommand(program);
 
 type CommandAction =
   | 'status'
