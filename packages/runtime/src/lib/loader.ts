@@ -62,8 +62,9 @@ export async function isProviderInstalled(providerName: string): Promise<boolean
  */
 export async function loadProvider(providerName: string): Promise<Provider | null> {
   // Check cache first
-  if (providerCache.has(providerName)) {
-    return providerCache.get(providerName)!;
+  const cached = providerCache.get(providerName);
+  if (cached) {
+    return cached;
   }
 
   const packageName = getProviderPackage(providerName);

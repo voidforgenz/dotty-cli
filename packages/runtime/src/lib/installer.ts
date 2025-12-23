@@ -37,7 +37,7 @@ export async function writeDottyPackageJson(pkg: Record<string, unknown>): Promi
 /**
  * Create or update the package.json in ~/.dotty
  */
-export async function ensureDottyPackageJson(cliVersion: string): Promise<void> {
+export async function ensureDottyPackageJson(_cliVersion: string): Promise<void> {
   const existing = await readDottyPackageJson();
 
   if (existing) {

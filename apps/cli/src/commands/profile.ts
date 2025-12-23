@@ -154,7 +154,7 @@ export function registerProfileCommand(program: Command): void {
     });
 }
 
-async function listProfiles(program: Command): Promise<void> {
+async function listProfiles(_program: Command): Promise<void> {
   showIntro('dotty');
 
   if (!(await dottyfileExists())) {

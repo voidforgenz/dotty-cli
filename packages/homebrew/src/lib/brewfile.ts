@@ -52,7 +52,7 @@ export async function parseBrewfile(path: string): Promise<BrewfileContents> {
         continue;
       }
     }
-  } catch (error) {
+  } catch {
     // Return empty contents if file doesn't exist
   }
 

@@ -43,9 +43,9 @@ export async function select<T extends string>(
   message: string,
   options: { value: T; label: string; hint?: string }[]
 ): Promise<T> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const result = await p.select({
     message,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: options as any,
   });
 
@@ -64,9 +64,9 @@ export async function multiSelect<T extends string>(
   message: string,
   options: { value: T; label: string; hint?: string }[]
 ): Promise<T[]> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const result = await p.multiselect({
     message,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: options as any,
     required: false,
   });

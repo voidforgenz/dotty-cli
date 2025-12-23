@@ -59,18 +59,22 @@
     "projectsRelationship": "fixed",
     "version": {
       "preVersionCommand": "pnpm nx run-many -t build",
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "git": {
+        "commit": false,
+        "tag": false
+      }
     },
     "changelog": {
       "projectChangelogs": false,
       "workspaceChangelog": {
         "file": "CHANGELOG.md",
         "createRelease": false
+      },
+      "git": {
+        "commit": false,
+        "tag": false
       }
-    },
-    "git": {
-      "commit": false,
-      "tag": false
     }
   }
 }
