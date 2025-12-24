@@ -94,7 +94,8 @@ jobs:
             # First release - generate changelog from all commits
             pnpm nx release changelog ${{ steps.version.outputs.version }} \
               --git-commit=false \
-              --git-tag=false
+              --git-tag=false \
+              --first-release
           fi
 
       - name: Build all packages
