@@ -84,10 +84,18 @@ jobs:
       - name: Generate changelog
         if: github.event_name == 'workflow_dispatch'
         run: |
-          pnpm nx release changelog ${{ steps.version.outputs.version }} \
-            --git-commit=false \
-            --git-tag=false \
-            --from=v${{ steps.version.outputs.current }}
+          # Check if previous tag exists
+          if git rev-parse "v${{ steps.version.outputs.current }}" >/dev/null 2>&1; then
+            pnpm nx release changelog ${{ steps.version.outputs.version }} \
+              --git-commit=false \
+              --git-tag=false \
+              --from=v${{ steps.version.outputs.current }}
+          else
+            # First release - generate changelog from all commits
+            pnpm nx release changelog ${{ steps.version.outputs.version }} \
+              --git-commit=false \
+              --git-tag=false
+          fi
 
       - name: Build all packages
         run: pnpm nx run-many -t build
