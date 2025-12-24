@@ -1,13 +1,13 @@
 import { HomebrewService, createHomebrewService } from './service.js';
 
-// Mock @dotty/core
-jest.mock('@dotty/core', () => ({
+// Mock @dottyfiles/core
+jest.mock('@dottyfiles/core', () => ({
   exec: jest.fn(),
   execStream: jest.fn(),
   commandExists: jest.fn(),
 }));
 
-import { exec, execStream, commandExists } from '@dotty/core';
+import { exec, execStream, commandExists } from '@dottyfiles/core';
 
 const mockExec = exec as jest.MockedFunction<typeof exec>;
 const mockExecStream = execStream as jest.MockedFunction<typeof execStream>;

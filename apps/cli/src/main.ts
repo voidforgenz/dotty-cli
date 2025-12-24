@@ -1,8 +1,8 @@
 import { Command } from 'commander';
-import { setupErrorHandlers, showIntro, select } from '@dotty/core';
-import { registerProviderFactory } from '@dotty/runtime';
-import { createProvider as createHomebrewProvider } from '@dotty/homebrew';
-import { createProvider as createMasProvider } from '@dotty/mas';
+import { setupErrorHandlers, showIntro, select } from '@dottyfiles/core';
+import { registerProviderFactory } from '@dottyfiles/runtime';
+import { createProvider as createHomebrewProvider } from '@dottyfiles/homebrew';
+import { createProvider as createMasProvider } from '@dottyfiles/mas';
 import { registerInitCommand } from './commands/init.js';
 import { registerDoctorCommand } from './commands/doctor.js';
 import { registerStatusCommand } from './commands/status.js';

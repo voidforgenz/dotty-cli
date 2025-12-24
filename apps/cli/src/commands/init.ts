@@ -8,7 +8,7 @@ import {
   text,
   exec,
   execStream,
-} from '@dotty/core';
+} from '@dottyfiles/core';
 import {
   getDottyDir,
   getDottyfilePath,
@@ -18,12 +18,12 @@ import {
   writeDottyfile,
   ensureDottyDir,
   type Dottyfile,
-} from '@dotty/config';
+} from '@dottyfiles/config';
 import {
   ensureDottyPackageJson,
   ensureDottyGitignore,
   PROVIDER_PACKAGES,
-} from '@dotty/runtime';
+} from '@dottyfiles/runtime';
 
 const VERSION = '0.1.0';
 

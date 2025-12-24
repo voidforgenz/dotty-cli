@@ -1,4 +1,4 @@
-import { exec, commandExists } from '@dotty/core';
+import { exec, commandExists } from '@dottyfiles/core';
 
 export interface MasApp {
   id: string;

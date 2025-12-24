@@ -1,5 +1,5 @@
 {
-  "name": "@dotty/macos",
+  "name": "@dottyfiles/macos",
   "version": "0.1.0",
   "type": "module",
   "publishConfig": {
@@ -11,7 +11,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "@dotty/source": "./src/index.ts",
+      "@dottyfiles/source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
@@ -42,7 +42,7 @@
     }
   },
   "dependencies": {
-    "@dotty/core": "workspace:*",
-    "@dotty/config": "workspace:*"
+    "@dottyfiles/core": "workspace:*",
+    "@dottyfiles/config": "workspace:*"
   }
 }

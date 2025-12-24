@@ -1,5 +1,5 @@
-import { exec, commandExists } from '@dotty/core';
-import type { DockSettings } from '@dotty/config';
+import { exec, commandExists } from '@dottyfiles/core';
+import type { DockSettings } from '@dottyfiles/config';
 import type { ApplyResult, MacosApplyOptions } from './types.js';
 
 /**

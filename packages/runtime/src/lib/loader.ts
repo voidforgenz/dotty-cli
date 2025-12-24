@@ -1,13 +1,13 @@
 import path from 'path';
-import { getDottyDir } from '@dotty/config';
+import { getDottyDir } from '@dottyfiles/config';
 import type { Provider, ProviderModule } from './types.js';
 
 /**
  * Map of provider names to their package names
  */
 export const PROVIDER_PACKAGES: Record<string, string> = {
-  homebrew: '@dotty/homebrew',
-  mas: '@dotty/mas',
+  homebrew: '@dottyfiles/homebrew',
+  mas: '@dottyfiles/mas',
 };
 
 /**

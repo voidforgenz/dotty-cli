@@ -1,4 +1,4 @@
-import { exec, execStream, commandExists } from '@dotty/core';
+import { exec, execStream, commandExists } from '@dottyfiles/core';
 
 /**
  * Homebrew service - provides wrapper functionality for Homebrew operations

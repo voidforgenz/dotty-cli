@@ -1,7 +1,7 @@
 import { Command } from 'commander';
-import { dryRunLog, showIntro, showOutro, log, confirm } from '@dotty/core';
-import { createChezmoiService } from '@dotty/chezmoi';
-import type { GlobalOptions } from '@dotty/core';
+import { dryRunLog, showIntro, showOutro, log, confirm } from '@dottyfiles/core';
+import { createChezmoiService } from '@dottyfiles/chezmoi';
+import type { GlobalOptions } from '@dottyfiles/core';
 
 export function registerAddCommand(program: Command): void {
   program

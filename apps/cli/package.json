@@ -1,5 +1,5 @@
 {
-  "name": "@dotty/cli",
+  "name": "@dottyfiles/cli",
   "version": "0.1.0",
   "type": "module",
   "publishConfig": {
@@ -65,15 +65,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@dotty/cli:build",
+          "buildTarget": "@dottyfiles/cli:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@dotty/cli:build:development"
+            "buildTarget": "@dottyfiles/cli:build:development"
           },
           "production": {
-            "buildTarget": "@dotty/cli:build:production"
+            "buildTarget": "@dottyfiles/cli:build:production"
           }
         }
       },
@@ -85,13 +85,13 @@
     }
   },
   "dependencies": {
-    "@dotty/core": "workspace:*",
-    "@dotty/config": "workspace:*",
-    "@dotty/runtime": "workspace:*",
-    "@dotty/chezmoi": "workspace:*",
-    "@dotty/homebrew": "workspace:*",
-    "@dotty/mas": "workspace:*",
-    "@dotty/macos": "workspace:*",
+    "@dottyfiles/core": "workspace:*",
+    "@dottyfiles/config": "workspace:*",
+    "@dottyfiles/runtime": "workspace:*",
+    "@dottyfiles/chezmoi": "workspace:*",
+    "@dottyfiles/homebrew": "workspace:*",
+    "@dottyfiles/mas": "workspace:*",
+    "@dottyfiles/macos": "workspace:*",
     "chalk": "*",
     "commander": "*"
   }

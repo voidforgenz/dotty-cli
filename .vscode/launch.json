@@ -4,9 +4,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug @dotty/cli with Nx",
+      "name": "Debug @dottyfiles/cli with Nx",
       "runtimeExecutable": "pnpm exec",
-      "runtimeArgs": ["nx", "serve", "@dotty/cli"],
+      "runtimeArgs": ["nx", "serve", "@dottyfiles/cli"],
       "env": {
         "NODE_OPTIONS": "--inspect=9229"
       },

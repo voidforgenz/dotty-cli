@@ -7,7 +7,7 @@ import {
   installMissingApps,
   type ResolvedApp,
 } from './resolver.js';
-import type { App, Dottyfile } from '@dotty/config';
+import type { App, Dottyfile } from '@dottyfiles/config';
 import type { Provider } from './types.js';
 
 // Mock provider factory

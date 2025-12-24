@@ -1,11 +1,11 @@
-# @dotty/mas
+# @dottyfiles/mas
 
 Mac App Store CLI integration for the dotty ecosystem.
 
 ## Installation
 
 ```bash
-npm install @dotty/mas
+npm install @dottyfiles/mas
 ```
 
 ## Requirements
@@ -17,7 +17,7 @@ npm install @dotty/mas
 ## Usage
 
 ```typescript
-import { MasService, createMasService } from '@dotty/mas';
+import { MasService, createMasService } from '@dottyfiles/mas';
 
 const mas = createMasService();
 

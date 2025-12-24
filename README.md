@@ -16,13 +16,13 @@ A beautiful CLI for managing macOS dotfiles and system configuration.
 
 ```bash
 # Install globally from npm
-npm install -g @dotty/cli
+npm install -g @dottyfiles/cli
 
 # Or with pnpm
-pnpm add -g @dotty/cli
+pnpm add -g @dottyfiles/cli
 
 # Install canary (bleeding edge, updated on every commit to main)
-npm install -g @dotty/cli@canary
+npm install -g @dottyfiles/cli@canary
 ```
 
 ### Prerequisites
@@ -77,18 +77,18 @@ dotty apply
 
 ## Packages
 
-Dotty is built as a modular monorepo. While most users only need `@dotty/cli`, the underlying packages are available separately:
+Dotty is built as a modular monorepo. While most users only need `@dottyfiles/cli`, the underlying packages are available separately:
 
 | Package | Description |
 |---------|-------------|
-| [@dotty/cli](https://npmjs.com/package/@dotty/cli) | Main CLI binary |
-| [@dotty/core](https://npmjs.com/package/@dotty/core) | Shared utilities, types, UI components |
-| [@dotty/config](https://npmjs.com/package/@dotty/config) | Dottyfile parsing and schema |
-| [@dotty/chezmoi](https://npmjs.com/package/@dotty/chezmoi) | Chezmoi wrapper |
-| [@dotty/homebrew](https://npmjs.com/package/@dotty/homebrew) | Homebrew integration |
-| [@dotty/mas](https://npmjs.com/package/@dotty/mas) | Mac App Store integration |
-| [@dotty/macos](https://npmjs.com/package/@dotty/macos) | macOS system preferences |
-| [@dotty/runtime](https://npmjs.com/package/@dotty/runtime) | Runtime and migrations |
+| [@dottyfiles/cli](https://npmjs.com/package/@dottyfiles/cli) | Main CLI binary |
+| [@dottyfiles/core](https://npmjs.com/package/@dottyfiles/core) | Shared utilities, types, UI components |
+| [@dottyfiles/config](https://npmjs.com/package/@dottyfiles/config) | Dottyfile parsing and schema |
+| [@dottyfiles/chezmoi](https://npmjs.com/package/@dottyfiles/chezmoi) | Chezmoi wrapper |
+| [@dottyfiles/homebrew](https://npmjs.com/package/@dottyfiles/homebrew) | Homebrew integration |
+| [@dottyfiles/mas](https://npmjs.com/package/@dottyfiles/mas) | Mac App Store integration |
+| [@dottyfiles/macos](https://npmjs.com/package/@dottyfiles/macos) | macOS system preferences |
+| [@dottyfiles/runtime](https://npmjs.com/package/@dottyfiles/runtime) | Runtime and migrations |
 
 ## Development
 

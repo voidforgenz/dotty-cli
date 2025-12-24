@@ -1,11 +1,11 @@
-# @dotty/config
+# @dottyfiles/config
 
 Dottyfile schema, parsing, and validation for the dotty ecosystem.
 
 ## Installation
 
 ```bash
-npm install @dotty/config
+npm install @dottyfiles/config
 ```
 
 ## Usage
@@ -18,7 +18,7 @@ import {
   loadDottyfileSafe,
   dottyfileExists,
   getDottyfilePath,
-} from '@dotty/config';
+} from '@dottyfiles/config';
 
 // Check if Dottyfile exists
 if (await dottyfileExists()) {
@@ -38,7 +38,7 @@ import {
   writeDottyfile,
   ensureDottyDir,
   addApp,
-} from '@dotty/config';
+} from '@dottyfiles/config';
 
 // Create ~/.dotty directory
 await ensureDottyDir();
@@ -60,7 +60,7 @@ await writeDottyfile(config);
 ### Working with Apps
 
 ```typescript
-import { getActiveApps } from '@dotty/config';
+import { getActiveApps } from '@dottyfiles/config';
 
 const config = await loadDottyfile();
 
@@ -71,7 +71,7 @@ const apps = getActiveApps(config);
 ### Parsing TOML Strings
 
 ```typescript
-import { parseDottyfileString, tryParseDottyfile } from '@dotty/config';
+import { parseDottyfileString, tryParseDottyfile } from '@dottyfiles/config';
 
 const toml = `
 version = 1

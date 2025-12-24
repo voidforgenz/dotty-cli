@@ -1,4 +1,4 @@
-import type { App } from '@dotty/config';
+import type { App } from '@dottyfiles/config';
 
 /**
  * Result of a provider operation

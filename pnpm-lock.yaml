@@ -144,25 +144,25 @@ importers:
 
   apps/cli:
     dependencies:
-      '@dotty/chezmoi':
+      '@dottyfiles/chezmoi':
         specifier: workspace:*
         version: link:../../packages/chezmoi
-      '@dotty/config':
+      '@dottyfiles/config':
         specifier: workspace:*
         version: link:../../packages/config
-      '@dotty/core':
+      '@dottyfiles/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@dotty/homebrew':
+      '@dottyfiles/homebrew':
         specifier: workspace:*
         version: link:../../packages/homebrew
-      '@dotty/macos':
+      '@dottyfiles/macos':
         specifier: workspace:*
         version: link:../../packages/macos
-      '@dotty/mas':
+      '@dottyfiles/mas':
         specifier: workspace:*
         version: link:../../packages/mas
-      '@dotty/runtime':
+      '@dottyfiles/runtime':
         specifier: workspace:*
         version: link:../../packages/runtime
       chalk:
@@ -174,7 +174,7 @@ importers:
 
   packages/chezmoi:
     dependencies:
-      '@dotty/core':
+      '@dottyfiles/core':
         specifier: workspace:*
         version: link:../core
 
@@ -204,40 +204,40 @@ importers:
 
   packages/homebrew:
     dependencies:
-      '@dotty/config':
+      '@dottyfiles/config':
         specifier: workspace:*
         version: link:../config
-      '@dotty/core':
+      '@dottyfiles/core':
         specifier: workspace:*
         version: link:../core
-      '@dotty/runtime':
+      '@dottyfiles/runtime':
         specifier: workspace:*
         version: link:../runtime
 
   packages/macos:
     dependencies:
-      '@dotty/config':
+      '@dottyfiles/config':
         specifier: workspace:*
         version: link:../config
-      '@dotty/core':
+      '@dottyfiles/core':
         specifier: workspace:*
         version: link:../core
 
   packages/mas:
     dependencies:
-      '@dotty/config':
+      '@dottyfiles/config':
         specifier: workspace:*
         version: link:../config
-      '@dotty/core':
+      '@dottyfiles/core':
         specifier: workspace:*
         version: link:../core
-      '@dotty/runtime':
+      '@dottyfiles/runtime':
         specifier: workspace:*
         version: link:../runtime
 
   packages/runtime:
     dependencies:
-      '@dotty/config':
+      '@dottyfiles/config':
         specifier: workspace:*
         version: link:../config
 

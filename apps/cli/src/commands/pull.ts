@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { dryRunLog, showIntro, showOutro, log, confirm } from '@dotty/core';
+import { dryRunLog, showIntro, showOutro, log, confirm } from '@dottyfiles/core';
 import {
   loadDottyfileSafe,
   dottyfileExists,
@@ -10,9 +10,9 @@ import {
   createDefaultDottyfile,
   type Dottyfile,
   type App,
-} from '@dotty/config';
-import { loadProviders, type InstalledApp } from '@dotty/runtime';
-import type { GlobalOptions } from '@dotty/core';
+} from '@dottyfiles/config';
+import { loadProviders, type InstalledApp } from '@dottyfiles/runtime';
+import type { GlobalOptions } from '@dottyfiles/core';
 
 /**
  * Convert an InstalledApp from a provider to an App for the Dottyfile

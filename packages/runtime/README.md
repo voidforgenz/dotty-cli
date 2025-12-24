@@ -1,11 +1,11 @@
-# @dotty/runtime
+# @dottyfiles/runtime
 
 Dynamic provider loading and app resolution for the dotty ecosystem.
 
 ## Installation
 
 ```bash
-npm install @dotty/runtime
+npm install @dottyfiles/runtime
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ npm install @dotty/runtime
 ### Loading Providers
 
 ```typescript
-import { loadProvider, loadProviders, getAvailableProviders } from '@dotty/runtime';
+import { loadProvider, loadProviders, getAvailableProviders } from '@dottyfiles/runtime';
 
 // Load a single provider
 const homebrew = await loadProvider('homebrew');
@@ -31,13 +31,13 @@ const available = await getAvailableProviders(['homebrew', 'mas']);
 ### Resolving Apps to Providers
 
 ```typescript
-import { loadDottyfile } from '@dotty/config';
+import { loadDottyfile } from '@dottyfiles/config';
 import {
   loadProviders,
   resolveAllApps,
   findMissingApps,
   installMissingApps,
-} from '@dotty/runtime';
+} from '@dottyfiles/runtime';
 
 const config = await loadDottyfile();
 const providers = await loadProviders(config.providers);
@@ -67,7 +67,7 @@ import {
   ensureDottyPackageJson,
   addProviderDependency,
   getInstallCommand,
-} from '@dotty/runtime';
+} from '@dottyfiles/runtime';
 
 // Create package.json in ~/.dotty
 await ensureDottyPackageJson('0.1.0');
@@ -77,7 +77,7 @@ await addProviderDependency('homebrew', '0.1.0');
 
 // Get the npm install command
 const cmd = getInstallCommand(['homebrew', 'mas'], '0.1.0');
-// => "npm install @dotty/homebrew@0.1.0 @dotty/mas@0.1.0"
+// => "npm install @dottyfiles/homebrew@0.1.0 @dottyfiles/mas@0.1.0"
 ```
 
 ## Provider Interface

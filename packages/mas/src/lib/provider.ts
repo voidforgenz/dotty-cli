@@ -1,12 +1,12 @@
-import { exec, commandExists } from '@dotty/core';
-import type { App } from '@dotty/config';
+import { exec, commandExists } from '@dottyfiles/core';
+import type { App } from '@dottyfiles/config';
 import type {
   Provider,
   ProviderResult,
   InstalledApp,
   InstallOptions,
   UninstallOptions,
-} from '@dotty/runtime';
+} from '@dottyfiles/runtime';
 
 /**
  * Mac App Store provider - implements the Provider interface for mas CLI

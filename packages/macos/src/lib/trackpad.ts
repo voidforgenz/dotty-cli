@@ -1,5 +1,5 @@
-import { exec } from '@dotty/core';
-import type { TrackpadSettings } from '@dotty/config';
+import { exec } from '@dottyfiles/core';
+import type { TrackpadSettings } from '@dottyfiles/config';
 import type { ApplyResult, MacosApplyOptions } from './types.js';
 
 /**

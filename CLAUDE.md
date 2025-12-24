@@ -11,45 +11,45 @@ pnpm cli                           # Run CLI directly from source (via tsx)
 pnpm dev                           # Watch mode - rebuilds on changes
 pnpm build                         # Build all packages
 
-pnpm nx build @dotty/cli            # Build just the CLI
-pnpm nx test @dotty/cli             # Run tests for CLI
-pnpm nx test @dotty/core            # Run tests for core package
-pnpm nx lint @dotty/cli             # Lint
-pnpm nx typecheck @dotty/cli        # Type check
+pnpm nx build @dottyfiles/cli            # Build just the CLI
+pnpm nx test @dottyfiles/cli             # Run tests for CLI
+pnpm nx test @dottyfiles/core            # Run tests for core package
+pnpm nx lint @dottyfiles/cli             # Lint
+pnpm nx typecheck @dottyfiles/cli        # Type check
 pnpm nx run-many -t test            # Run all tests
 pnpm nx run-many -t lint            # Lint all packages
-pnpm nx show project @dotty/cli     # See available targets
+pnpm nx show project @dottyfiles/cli     # See available targets
 ```
 
 ## Package Layout
 
 ```
 apps/
-  cli/              # @dotty/cli - Main CLI binary (entry: src/main.ts)
+  cli/              # @dottyfiles/cli - Main CLI binary (entry: src/main.ts)
 packages/
-  core/             # @dotty/core - Shared utilities, types, UI components
-  chezmoi/          # @dotty/chezmoi - Chezmoi wrapper for dotfile management
-  homebrew/         # @dotty/homebrew - Homebrew integration & Brewfile parsing
-  mas/              # @dotty/mas - Mac App Store integration
+  core/             # @dottyfiles/core - Shared utilities, types, UI components
+  chezmoi/          # @dottyfiles/chezmoi - Chezmoi wrapper for dotfile management
+  homebrew/         # @dottyfiles/homebrew - Homebrew integration & Brewfile parsing
+  mas/              # @dottyfiles/mas - Mac App Store integration
 ```
 
 ### Package Dependencies
 
-All provider packages (`chezmoi`, `homebrew`, `mas`) depend only on `@dotty/core` - they must NOT depend on `@dotty/cli`.
+All provider packages (`chezmoi`, `homebrew`, `mas`) depend only on `@dottyfiles/core` - they must NOT depend on `@dottyfiles/cli`.
 
 ```
-@dotty/cli
-  ├── @dotty/core
-  ├── @dotty/chezmoi → @dotty/core
-  ├── @dotty/homebrew → @dotty/core
-  └── @dotty/mas → @dotty/core
+@dottyfiles/cli
+  ├── @dottyfiles/core
+  ├── @dottyfiles/chezmoi → @dottyfiles/core
+  ├── @dottyfiles/homebrew → @dottyfiles/core
+  └── @dottyfiles/mas → @dottyfiles/core
 ```
 
 ## Architecture
 
-- **@dotty/core**: Shared types (`GlobalOptions`, `CheckResult`), exec utilities (`commandExists`, `execOutput`, `execWithSpinner`), UI helpers (`showIntro`, `log`, `select`, `confirm`), error handling (`DottyError`)
+- **@dottyfiles/core**: Shared types (`GlobalOptions`, `CheckResult`), exec utilities (`commandExists`, `execOutput`, `execWithSpinner`), UI helpers (`showIntro`, `log`, `select`, `confirm`), error handling (`DottyError`)
 - **Provider packages**: Each wraps a specific tool - `ChezmoiService`, `HomebrewService`, `MasService`
-- **@dotty/cli**: Uses Commander.js. Commands in `apps/cli/src/commands/` register themselves via `registerXxxCommand(program)` pattern
+- **@dottyfiles/cli**: Uses Commander.js. Commands in `apps/cli/src/commands/` register themselves via `registerXxxCommand(program)` pattern
 
 ## Tech Stack
 
@@ -60,14 +60,14 @@ All provider packages (`chezmoi`, `homebrew`, `mas`) depend only on `@dotty/core
 
 ## Releasing
 
-All `@dotty/*` packages use single-versioning via Nx Release - they are always released together.
+All `@dottyfiles/*` packages use single-versioning via Nx Release - they are always released together.
 
 ### Automatic Canary Releases
 
 Every merge to `main` automatically publishes a canary version to npm:
 - Tag: `@canary`
 - Version: `X.Y.Z-canary.{run_number}`
-- Install: `npm install @dotty/cli@canary`
+- Install: `npm install @dottyfiles/cli@canary`
 
 ### Stable Releases
 

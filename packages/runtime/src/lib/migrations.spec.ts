@@ -20,8 +20,8 @@ import { existsSync } from 'fs';
 jest.mock('fs/promises');
 jest.mock('fs');
 
-// Mock @dotty/config
-jest.mock('@dotty/config', () => ({
+// Mock @dottyfiles/config
+jest.mock('@dottyfiles/config', () => ({
   getDottyfilePath: jest.fn(() => '/mock/.dotty/Dottyfile'),
 }));
 

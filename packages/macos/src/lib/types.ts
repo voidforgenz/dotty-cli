@@ -3,7 +3,7 @@ import type {
   KeyboardSettings,
   TrackpadSettings,
   MouseSettings,
-} from '@dotty/config';
+} from '@dottyfiles/config';
 
 export interface ApplyResult {
   success: boolean;

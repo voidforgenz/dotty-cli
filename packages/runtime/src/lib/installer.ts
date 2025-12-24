@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { getDottyDir, ensureDottyDir } from '@dotty/config';
+import { getDottyDir, ensureDottyDir } from '@dottyfiles/config';
 import { PROVIDER_PACKAGES } from './loader.js';
 
 /**

@@ -1,11 +1,11 @@
-# @dotty/homebrew
+# @dottyfiles/homebrew
 
 Homebrew integration and Brewfile parsing for the dotty ecosystem.
 
 ## Installation
 
 ```bash
-npm install @dotty/homebrew
+npm install @dottyfiles/homebrew
 ```
 
 ## Requirements
@@ -18,7 +18,7 @@ npm install @dotty/homebrew
 ### HomebrewService
 
 ```typescript
-import { HomebrewService, createHomebrewService } from '@dotty/homebrew';
+import { HomebrewService, createHomebrewService } from '@dottyfiles/homebrew';
 
 const brew = createHomebrewService();
 
@@ -47,7 +47,7 @@ await brew.install();
 ### Brewfile Parsing
 
 ```typescript
-import { parseBrewfile, hasCask, hasMasApp } from '@dotty/homebrew';
+import { parseBrewfile, hasCask, hasMasApp } from '@dottyfiles/homebrew';
 
 const brewfile = await parseBrewfile('/path/to/Brewfile');
 

@@ -1,14 +1,14 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { dryRunLog, showIntro, showOutro, log, confirm } from '@dotty/core';
-import { dottyfileExists, getDottyfilePath } from '@dotty/config';
+import { dryRunLog, showIntro, showOutro, log, confirm } from '@dottyfiles/core';
+import { dottyfileExists, getDottyfilePath } from '@dottyfiles/config';
 import {
   CURRENT_SCHEMA_VERSION,
   checkMigrationsNeeded,
   runMigrations,
   readMigrationHistory,
-} from '@dotty/runtime';
-import type { GlobalOptions } from '@dotty/core';
+} from '@dottyfiles/runtime';
+import type { GlobalOptions } from '@dottyfiles/core';
 
 export function registerMigrateCommand(program: Command): void {
   const migrateCmd = program

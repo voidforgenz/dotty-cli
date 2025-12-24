@@ -1,12 +1,12 @@
 import { MasService, createMasService } from './service.js';
 
-// Mock @dotty/core
-jest.mock('@dotty/core', () => ({
+// Mock @dottyfiles/core
+jest.mock('@dottyfiles/core', () => ({
   exec: jest.fn(),
   commandExists: jest.fn(),
 }));
 
-import { exec, commandExists } from '@dotty/core';
+import { exec, commandExists } from '@dottyfiles/core';
 
 const mockExec = exec as jest.MockedFunction<typeof exec>;
 const mockCommandExists = commandExists as jest.MockedFunction<typeof commandExists>;

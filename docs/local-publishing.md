@@ -40,11 +40,11 @@ pnpm nx release publish --registry=http://localhost:4873
 ```
 
 This publishes all 5 packages:
-- `@dotty/core`
-- `@dotty/chezmoi`
-- `@dotty/homebrew`
-- `@dotty/mas`
-- `@dotty/cli`
+- `@dottyfiles/core`
+- `@dottyfiles/chezmoi`
+- `@dottyfiles/homebrew`
+- `@dottyfiles/mas`
+- `@dottyfiles/cli`
 
 ### 4. Test Installation
 
@@ -57,7 +57,7 @@ npm init -y
 echo "@dotty:registry=http://localhost:4873" > .npmrc
 
 # Install packages
-npm install @dotty/cli
+npm install @dottyfiles/cli
 
 # Verify
 npx dotty --version

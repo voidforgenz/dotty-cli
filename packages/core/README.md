@@ -1,11 +1,11 @@
-# @dotty/core
+# @dottyfiles/core
 
 Shared utilities, types, and UI components for the dotty ecosystem.
 
 ## Installation
 
 ```bash
-npm install @dotty/core
+npm install @dottyfiles/core
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ npm install @dotty/core
 ### Execution Utilities
 
 ```typescript
-import { exec, execOutput, execStream, commandExists } from '@dotty/core';
+import { exec, execOutput, execStream, commandExists } from '@dottyfiles/core';
 
 // Check if a command exists
 const hasBrew = await commandExists('brew');
@@ -34,7 +34,7 @@ await execStream('npm', ['install']);
 ### UI Components
 
 ```typescript
-import { showIntro, showOutro, log, confirm, select } from '@dotty/core';
+import { showIntro, showOutro, log, confirm, select } from '@dottyfiles/core';
 
 // Show branded intro/outro
 showIntro('my-cli');
@@ -58,7 +58,7 @@ const action = await select('Choose action:', [
 ### Error Handling
 
 ```typescript
-import { DottyError, errors, handleError, setupErrorHandlers } from '@dotty/core';
+import { DottyError, errors, handleError, setupErrorHandlers } from '@dottyfiles/core';
 
 // Setup global handlers
 setupErrorHandlers();

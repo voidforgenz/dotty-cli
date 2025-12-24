@@ -1,6 +1,6 @@
 import { Command } from 'commander';
-import { showIntro, showOutro, log } from '@dotty/core';
-import { createChezmoiService } from '@dotty/chezmoi';
+import { showIntro, showOutro, log } from '@dottyfiles/core';
+import { createChezmoiService } from '@dottyfiles/chezmoi';
 
 export function registerEditCommand(program: Command): void {
   program

@@ -1,12 +1,12 @@
 {
-  "name": "@dotty/source",
+  "name": "@dottyfiles/source",
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "build": "nx affected -t build --base=main",
-    "dev": "nx serve @dotty/cli",
+    "dev": "nx serve @dottyfiles/cli",
     "cli": "tsx apps/cli/src/main.ts",
-    "link": "pnpm build:all && pnpm --filter @dotty/cli link --global",
+    "link": "pnpm build:all && pnpm --filter @dottyfiles/cli link --global",
     "test": "nx affected -t test --base=main -- --coverage",
     "lint": "nx affected -t lint --base=main",
     "typecheck": "nx affected -t typecheck --base=main",

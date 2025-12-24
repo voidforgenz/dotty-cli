@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { dryRunLog, showIntro, showOutro, log, confirm, runHooks } from '@dotty/core';
-import { createChezmoiService } from '@dotty/chezmoi';
+import { dryRunLog, showIntro, showOutro, log, confirm, runHooks } from '@dottyfiles/core';
+import { createChezmoiService } from '@dottyfiles/chezmoi';
 import {
   loadDottyfile,
   dottyfileExists,
@@ -9,7 +9,7 @@ import {
   getDottyfilePath,
   getEffectiveSettings,
   type ProfileSettings,
-} from '@dotty/config';
+} from '@dottyfiles/config';
 import {
   loadProviders,
   resolveAllApps,
@@ -19,9 +19,9 @@ import {
   type ResolvedApp,
   type InstalledApp,
   type Provider,
-} from '@dotty/runtime';
-import { applyMacosSettings } from '@dotty/macos';
-import type { GlobalOptions } from '@dotty/core';
+} from '@dottyfiles/runtime';
+import { applyMacosSettings } from '@dottyfiles/macos';
+import type { GlobalOptions } from '@dottyfiles/core';
 
 export function registerPushCommand(program: Command): void {
   program

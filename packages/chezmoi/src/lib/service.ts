@@ -1,4 +1,4 @@
-import { exec, execOutput, execStream, commandExists } from '@dotty/core';
+import { exec, execOutput, execStream, commandExists } from '@dottyfiles/core';
 
 /**
  * Chezmoi service - provides wrapper functionality for chezmoi operations

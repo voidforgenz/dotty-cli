@@ -12,8 +12,8 @@ import {
   check,
   cross,
   warning,
-} from '@dotty/core';
-import type { CheckResult } from '@dotty/core';
+} from '@dottyfiles/core';
+import type { CheckResult } from '@dottyfiles/core';
 
 // Default paths - these would typically come from config
 const PATHS = {
@@ -73,7 +73,7 @@ async function getPackageVersion(packageName: string): Promise<string | null> {
 
 async function checkPackageVersions(cliVersion: string): Promise<CheckResult[]> {
   const results: CheckResult[] = [];
-  const packages = ['@dotty/core', '@dotty/chezmoi', '@dotty/homebrew', '@dotty/mas'];
+  const packages = ['@dottyfiles/core', '@dottyfiles/chezmoi', '@dottyfiles/homebrew', '@dottyfiles/mas'];
 
   for (const pkg of packages) {
     const version = await getPackageVersion(pkg);

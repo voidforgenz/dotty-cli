@@ -1,5 +1,5 @@
 import { parseBrewfile, hasCask, hasMasApp } from './brewfile.js';
-import type { BrewfileContents } from '@dotty/core';
+import type { BrewfileContents } from '@dottyfiles/core';
 import fs from 'fs/promises';
 
 // Mock fs/promises

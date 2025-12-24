@@ -34,30 +34,30 @@ pnpm dev
 
 ```
 apps/
-  cli/              # @dotty/cli - Main CLI binary
+  cli/              # @dottyfiles/cli - Main CLI binary
 packages/
-  core/             # @dotty/core - Shared utilities, types, UI
-  config/           # @dotty/config - Dottyfile parsing and schema
-  chezmoi/          # @dotty/chezmoi - Chezmoi wrapper
-  homebrew/         # @dotty/homebrew - Homebrew integration
-  mas/              # @dotty/mas - Mac App Store integration
-  macos/            # @dotty/macos - macOS system preferences
-  runtime/          # @dotty/runtime - Runtime and migrations
+  core/             # @dottyfiles/core - Shared utilities, types, UI
+  config/           # @dottyfiles/config - Dottyfile parsing and schema
+  chezmoi/          # @dottyfiles/chezmoi - Chezmoi wrapper
+  homebrew/         # @dottyfiles/homebrew - Homebrew integration
+  mas/              # @dottyfiles/mas - Mac App Store integration
+  macos/            # @dottyfiles/macos - macOS system preferences
+  runtime/          # @dottyfiles/runtime - Runtime and migrations
 ```
 
 ### Package Dependencies
 
-All provider packages depend only on `@dotty/core` - they must NOT depend on `@dotty/cli`:
+All provider packages depend only on `@dottyfiles/core` - they must NOT depend on `@dottyfiles/cli`:
 
 ```
-@dotty/cli
-  ├── @dotty/core
-  ├── @dotty/config
-  ├── @dotty/runtime
-  ├── @dotty/chezmoi → @dotty/core
-  ├── @dotty/homebrew → @dotty/core, @dotty/config, @dotty/runtime
-  ├── @dotty/mas → @dotty/core, @dotty/config, @dotty/runtime
-  └── @dotty/macos → @dotty/core, @dotty/config
+@dottyfiles/cli
+  ├── @dottyfiles/core
+  ├── @dottyfiles/config
+  ├── @dottyfiles/runtime
+  ├── @dottyfiles/chezmoi → @dottyfiles/core
+  ├── @dottyfiles/homebrew → @dottyfiles/core, @dottyfiles/config, @dottyfiles/runtime
+  ├── @dottyfiles/mas → @dottyfiles/core, @dottyfiles/config, @dottyfiles/runtime
+  └── @dottyfiles/macos → @dottyfiles/core, @dottyfiles/config
 ```
 
 ## Development Commands
@@ -100,10 +100,10 @@ pnpm commit      # Interactive commit prompt (commitizen)
 
 ```bash
 # Build a specific package
-pnpm nx build @dotty/core
+pnpm nx build @dottyfiles/core
 
 # Run tests for a package
-pnpm nx test @dotty/homebrew
+pnpm nx test @dottyfiles/homebrew
 
 # Run multiple tasks
 pnpm nx run-many -t lint test build
@@ -115,7 +115,7 @@ Nx caches task results for speed. To force a fresh run:
 
 ```bash
 # Skip cache for a single command
-pnpm nx build @dotty/core --skip-nx-cache
+pnpm nx build @dottyfiles/core --skip-nx-cache
 
 # Skip cache for affected command
 pnpm build -- --skip-nx-cache
@@ -131,7 +131,7 @@ pnpm build:all -- --skip-nx-cache
 pnpm nx graph
 
 # See available targets for a project
-pnpm nx show project @dotty/cli
+pnpm nx show project @dottyfiles/cli
 
 # See what would be affected by your changes
 pnpm nx show projects --affected
@@ -196,20 +196,20 @@ pnpm test
 pnpm test:all
 
 # Run tests for a specific package
-pnpm nx test @dotty/core
+pnpm nx test @dottyfiles/core
 
 # Run tests with coverage for a specific package
-pnpm nx test @dotty/core -- --coverage
+pnpm nx test @dottyfiles/core -- --coverage
 
 # Run a specific test file
-pnpm nx test @dotty/core -- --testPathPattern=exec.spec.ts
+pnpm nx test @dottyfiles/core -- --testPathPattern=exec.spec.ts
 ```
 
 ## Adding a New Package
 
 1. Create the package directory under `packages/`
 2. Add `package.json` with:
-   - Proper `name` (`@dotty/package-name`)
+   - Proper `name` (`@dottyfiles/package-name`)
    - `publishConfig.access: "public"`
    - Nx build configuration
 3. Add the package to consuming packages' dependencies
@@ -237,7 +237,7 @@ pnpm nx reset
 
 **Tests failing with stale cache:**
 ```bash
-pnpm nx test @dotty/core --skip-nx-cache
+pnpm nx test @dottyfiles/core --skip-nx-cache
 ```
 
 **Build outputs seem wrong:**

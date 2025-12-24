@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import type { BrewfileContents } from '@dotty/core';
+import type { BrewfileContents } from '@dottyfiles/core';
 
 /**
  * Parse a Brewfile and extract taps, brews, casks, and MAS apps

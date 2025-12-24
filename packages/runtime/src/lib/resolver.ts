@@ -1,4 +1,4 @@
-import type { App, Dottyfile } from '@dotty/config';
+import type { App, Dottyfile } from '@dottyfiles/config';
 import type { Provider, ProviderResult, InstalledApp } from './types.js';
 
 /**

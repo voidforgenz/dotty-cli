@@ -2,7 +2,7 @@ import { readFile, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { parse as parseToml, stringify as stringifyToml } from '@iarna/toml';
-import { getDottyfilePath } from '@dotty/config';
+import { getDottyfilePath } from '@dottyfiles/config';
 
 /**
  * Current schema version - increment this when making breaking changes

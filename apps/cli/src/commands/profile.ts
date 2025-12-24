@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { showIntro, showOutro, log } from '@dotty/core';
+import { showIntro, showOutro, log } from '@dottyfiles/core';
 import {
   loadDottyfile,
   dottyfileExists,
@@ -14,8 +14,8 @@ import {
   setActiveProfiles,
   addActiveProfile,
   removeActiveProfile,
-} from '@dotty/config';
-import type { GlobalOptions } from '@dotty/core';
+} from '@dottyfiles/config';
+import type { GlobalOptions } from '@dottyfiles/core';
 
 export function registerProfileCommand(program: Command): void {
   const profileCmd = program

@@ -1,11 +1,11 @@
-# @dotty/cli
+# @dottyfiles/cli
 
 Main CLI binary for dotty - a beautiful CLI for managing dotfiles on macOS.
 
 ## Installation
 
 ```bash
-npm install -g @dotty/cli
+npm install -g @dottyfiles/cli
 ```
 
 ## Usage
@@ -81,10 +81,10 @@ Adds a new file to dotfiles management.
 
 ## Related Packages
 
-- [@dotty/core](../../packages/core/README.md) - Shared utilities
-- [@dotty/chezmoi](../../packages/chezmoi/README.md) - Chezmoi wrapper
-- [@dotty/homebrew](../../packages/homebrew/README.md) - Homebrew integration
-- [@dotty/mas](../../packages/mas/README.md) - Mac App Store integration
+- [@dottyfiles/core](../../packages/core/README.md) - Shared utilities
+- [@dottyfiles/chezmoi](../../packages/chezmoi/README.md) - Chezmoi wrapper
+- [@dottyfiles/homebrew](../../packages/homebrew/README.md) - Homebrew integration
+- [@dottyfiles/mas](../../packages/mas/README.md) - Mac App Store integration
 
 ## License
 

@@ -1,19 +1,19 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { exec, execOutput, showIntro, showOutro, log } from '@dotty/core';
-import { createChezmoiService } from '@dotty/chezmoi';
+import { exec, execOutput, showIntro, showOutro, log } from '@dottyfiles/core';
+import { createChezmoiService } from '@dottyfiles/chezmoi';
 import {
   loadDottyfileSafe,
   getDottyDir,
   getDottyfilePath,
   getActiveApps,
-} from '@dotty/config';
+} from '@dottyfiles/config';
 import {
   loadProviders,
   resolveAllApps,
   findMissingApps,
   groupByProvider,
-} from '@dotty/runtime';
+} from '@dottyfiles/runtime';
 
 export function registerStatusCommand(program: Command): void {
   program

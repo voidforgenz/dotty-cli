@@ -1,11 +1,11 @@
-# @dotty/chezmoi
+# @dottyfiles/chezmoi
 
 Chezmoi wrapper for dotfile management in the dotty ecosystem.
 
 ## Installation
 
 ```bash
-npm install @dotty/chezmoi
+npm install @dottyfiles/chezmoi
 ```
 
 ## Requirements
@@ -15,7 +15,7 @@ npm install @dotty/chezmoi
 ## Usage
 
 ```typescript
-import { ChezmoiService, createChezmoiService } from '@dotty/chezmoi';
+import { ChezmoiService, createChezmoiService } from '@dottyfiles/chezmoi';
 
 const chezmoi = createChezmoiService();
 
