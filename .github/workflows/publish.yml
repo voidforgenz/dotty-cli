@@ -55,8 +55,9 @@ jobs:
           BASE=$(echo "$CURRENT" | sed 's/-.*$//')
 
           if [ "${{ github.event_name }}" == "push" ]; then
-            # Canary: append run number
-            VERSION="${BASE}-canary.${GITHUB_RUN_NUMBER}"
+            # Canary: use timestamp for unique version
+            TIMESTAMP=$(date +%Y%m%d%H%M%S)
+            VERSION="${BASE}-canary.${TIMESTAMP}"
             TAG="canary"
           else
             # Release: use input
@@ -107,6 +108,7 @@ jobs:
         if: github.event_name == 'push' || !inputs.dry_run
         run: pnpm nx release publish --tag ${{ steps.version.outputs.tag }}
         env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
       - name: Create GitHub Release
