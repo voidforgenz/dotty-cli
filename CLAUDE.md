@@ -71,20 +71,16 @@ Every merge to `main` automatically publishes a canary version to npm:
 
 ### Stable Releases
 
-Stable releases are triggered manually via GitHub Actions:
+Stable releases are triggered by creating a GitHub Release:
 
-1. Go to Actions → "Release" workflow
-2. Click "Run workflow"
-3. Choose version bump: `patch`, `minor`, `major`, or exact version (e.g., `1.2.3`)
-4. Optionally enable dry run to preview changes
+1. Go to Releases → "Create a new release"
+2. Create a new tag (e.g., `v1.0.0`) with your release notes
+3. Publish the release
 
-The workflow will:
-- Bump versions across all packages
-- Generate changelog
-- Build and test
-- Commit, tag, and push to main
+The workflow will automatically:
+- Extract version from the tag
+- Build and test all packages
 - Publish to npm with `@latest` tag
-- Create a GitHub Release
 
 ## Git Commits
 
